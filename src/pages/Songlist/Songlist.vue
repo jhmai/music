@@ -391,19 +391,21 @@ export default {
 
     },
     handleScroll () {
-      console.log(111)
-      let scroll=document.documentElement.scrollTop;
+      
+      let scroll=document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
       let height=this.$refs.listInfo.offsetHeight;
       let vheight=this.$refs.vip.offsetHeight;
       // console.log(document.documentElement.scrollTop)
       // console.log(this.$refs.listInfo.offsetHeight)
       if (scroll<=height) {
         this.opacity=1-(scroll/height)
+        
       }else{
         this.opacity=0;
+        
       }
       if (scroll>=height+vheight) {
-
+        
         this.fixed=1;
       }else if(scroll<height+vheight){
         
@@ -454,6 +456,9 @@ export default {
       return this.$store.state.isLoading
     }
   },
+  destroyed () {
+    window.removeEventListener('scroll', this.handleScroll)
+  },
   beforeRouteEnter(to,from,next){
 
     next(vm=>{
@@ -475,7 +480,8 @@ export default {
       // this.$destroy();
     }
     next()
-  }
+  },
+
   
 }
 </script>

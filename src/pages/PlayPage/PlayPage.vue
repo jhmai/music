@@ -327,7 +327,8 @@ export default {
   },
   mounted () {
     this.axios.get('/lyric?id='+this.playId).then(res=>{
-        this.lyric=res.data.lrc.lyric
+        this.lyric=res.data.lrc.lyric.replace(/\r?\n|\r/gm,"")
+        
       }) 
   }
   

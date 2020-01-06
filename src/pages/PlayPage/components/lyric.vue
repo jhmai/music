@@ -47,7 +47,7 @@ li{
   padding: .2rem 0;
   text-align: center;
   color: rgba(255, 255, 255, 0.5);
-  font-size: .25rem;
+  font-size: .27rem;
 }
 .current{
   color: #ffffff;
@@ -111,23 +111,25 @@ export default {
   },
   watch:{
     lyric () {
+      console.log(this.lyric)
       let arr=this.lyric.split('[');
       let lyricArr=[];
+      
       arr.forEach(item=>{
         lyricArr.push(item.split(']'))
       })
-      // console.log(lyricArr)
+      
       lyricArr.forEach(item=>{
+        
         item[0]=(Number(item[0].split(':')[0]*60)+Number(item[0].split(':')[1])).toFixed(3); 
       })
-
+     
       for (var i = 0; i < lyricArr.length-1; i++) {
         lyricArr[i][3]=lyricArr[i+1][0];
       }
       lyricArr[lyricArr.length-1][3]=999999;
-      
       this.lyricList=lyricArr
-      console.log(this.lyricList) 
+      
     },
     currentTime () {
       // this.$refs.lyricview.scrollTop=this.$refs.current[0].offsetTop-this.lyricHeight;
