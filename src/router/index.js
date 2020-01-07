@@ -6,6 +6,7 @@ import My from '@/pages/My/My.vue'
 import Songlist from '@/pages/Songlist/Songlist.vue'
 import Play from '@/pages/Play/Play.vue'
 import PlayPage from '@/pages/PlayPage/PlayPage.vue'
+import Login from '@/pages/login/login.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -57,6 +58,15 @@ const routes = [
     path:'/playpage',
     name:'playpage',
     component:PlayPage,
+    meta:{
+      index:2,
+      keepAlive:false
+    }
+  },
+  {
+    path:'/login',
+    name:'login',
+    component:Login,
     meta:{
       index:2,
       keepAlive:false

@@ -318,7 +318,7 @@ export default {
     playId (curval,oldval){
       console.log(111)
       this.axios.get('/lyric?id='+this.playId).then(res=>{
-        this.lyric=res.data.lrc.lyric
+        this.lyric=res.data.lrc.lyric.replace(/\r?\n|\r/gm,"")
       })
     }
   },
@@ -328,7 +328,6 @@ export default {
   mounted () {
     this.axios.get('/lyric?id='+this.playId).then(res=>{
         this.lyric=res.data.lrc.lyric.replace(/\r?\n|\r/gm,"")
-        
       }) 
   }
   

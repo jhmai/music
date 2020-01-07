@@ -13,14 +13,16 @@ export default new Vuex.Store({
   	totalTime:'',
   	currentTime:'',
     isLoading:true,
-    jump:''
+    jump:'',
+    token:localStorage.getItem('token') ? localStorage.getItem('token'):'',   // token
+    uid:localStorage.getItem('uid') ? localStorage.getItem('uid'):'',
   },
   mutations: {
   	play (state,id) {
-  		this.state.playId=id;
+  		state.playId=id;
   	},
   	changeStatus (state,status) {
-  		this.state.playStatus=status;
+  		state.playStatus=status;
   	},
   	changeSong (state,playList) {
   		state.playList=playList;
@@ -35,10 +37,24 @@ export default new Vuex.Store({
       state.currentTime=currentTime
     },
     isLoading (state,isLoading) {
-      this.state.isLoading=isLoading;
+      state.isLoading=isLoading;
     },
     jump (state,jump) {
-      this.state.jump=jump;
+      state.jump=jump;
+    },
+    setToken(state,token){
+      state.token=token;
+      localStorage.setItem('token',token)
+    },
+    removeToken(){
+      localStorage.removeItem('token')
+    },
+    setUid(state,uid){
+      state.uid=uid;
+      localStorage.setItem('uid',uid)
+    },
+    removeUid(){
+      localStorage.removeItem('uid')
     }
   },
   actions: {

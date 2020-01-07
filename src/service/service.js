@@ -15,10 +15,10 @@ const service = axios.create({
 service.interceptors.request.use(config=>{
 	// vm.$dialog.loading.open('加载中');
 	vm.$store.commit('isLoading',true)
-	let token = window.localStorage.getItem("accessToken")
+	let token = window.localStorage.getItem("token")
     if (token) {
         //将token放到请求头发送给服务器,将tokenkey放在请求头中
-        config.headers.accessToken = token;     
+        config.headers.token = token;     
         //也可以这种写法
         // config.headers['accessToken'] = Token;
     }

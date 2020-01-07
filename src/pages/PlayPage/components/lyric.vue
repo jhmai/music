@@ -10,7 +10,7 @@
             >
            <li v-for="(item,index) in lyricList" 
            :key="index" 
-           v-if="item[1]" 
+          
            :class="{current:item[0]<currentTime&&item[3]>currentTime}" 
            :ref="item[0]<currentTime&&item[3]>currentTime?'current':''">
             {{item[1]}}
@@ -120,23 +120,33 @@ export default {
       })
       
       lyricArr.forEach(item=>{
-        
         item[0]=(Number(item[0].split(':')[0]*60)+Number(item[0].split(':')[1])).toFixed(3); 
       })
-     
-      for (var i = 0; i < lyricArr.length-1; i++) {
-        lyricArr[i][3]=lyricArr[i+1][0];
+
+      let list=[];//去掉数组的空元素
+      for (var i = 0; i < lyricArr.length; i++) {
+        if (lyricArr[i][1]) {
+          list.push(lyricArr[i])
+        }
       }
-      lyricArr[lyricArr.length-1][3]=999999;
-      this.lyricList=lyricArr
-      
+      for (var i = 0; i < list.length-1; i++) {
+        list[i][3]=list[i+1][0];
+      }
+
+      list[list.length-1][3]=999999;
+
+
+      this.lyricList=list
+      // console.log(this.lyricList)
     },
     currentTime () {
       // this.$refs.lyricview.scrollTop=this.$refs.current[0].offsetTop-this.lyricHeight;
-
-      if (!this.touch) {
-        this.scrollY=-(this.$refs.current[0].offsetTop-this.lyricHeight)+'px';
-      }
+    
+        if (!this.touch) {
+          this.scrollY=-(this.$refs.current[0].offsetTop-this.lyricHeight)+'px';
+        }
+     
+      
         
       // console.log(this.$refs.current[0].offsetTop,this.lyricHeight)
     }

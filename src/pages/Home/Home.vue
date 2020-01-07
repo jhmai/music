@@ -128,7 +128,9 @@ export default {
     // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
     // console.log('this is current swiper instance object', this.$refs.mySwiper.swiper)
     this.swiper.slideTo(0, 1000, false)
-    
+    this.axios.get('/user/detail').then(res=>{
+      console.log(res.data)
+    })
   },
   beforeRouteEnter(to,from,next){
     
