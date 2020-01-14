@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports = {
   publicPath: './',
   outputDir: 'dist',
@@ -27,14 +28,13 @@ module.exports = {
       }
     }
   },
-  css: {
-    loaderOptions: {
-      sass: {
-        data: `
-          @import "@/assets/styles/_variable.scss";
-        `
-      }
-    }
+  pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'less',
+      patterns: [
+          path.resolve(__dirname, 'src/assets/style/main.less'),
+      ],
+    },
   }
 
 }
