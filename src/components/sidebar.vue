@@ -19,25 +19,80 @@
                   </div>
                   <div class="sign">签到</div>
                 </div>
-                
-             </div>
-             <div class="option">
-                <div>
-                  <i class="iconfont">&#xe649;</i>
-                  <span>我的消息</span>
-                </div>
-                <div>
-                  <i class="iconfont">&#xe61f;</i>
-                  <span>我的好友</span>
-                </div>
-                <div>
-                  <i class="iconfont">&#xe60a;</i>
-                  <span>听歌识曲</span>
-                </div>
-                <div>
-                  <i class="iconfont">&#xe653;</i>
-                  <span>个性装扮</span>
-                </div>
+              </div>
+               <div class="option">
+                  <div>
+                    <i class="iconfont">&#xe649;</i>
+                    <span>我的消息</span>
+                  </div>
+                  <div>
+                    <i class="iconfont">&#xe61f;</i>
+                    <span>我的好友</span>
+                  </div>
+                  <div>
+                    <i class="iconfont">&#xe60a;</i>
+                    <span>听歌识曲</span>
+                  </div>
+                  <div>
+                    <i class="iconfont">&#xe653;</i>
+                    <span>个性装扮</span>
+                  </div>
+               </div>
+               <div class="option-list">
+                  <ul class="entertainment">
+                   <li>
+                     <span>演出</span>
+                   </li>
+                   <li>
+                     <span>商城</span>
+                   </li>
+                   <li>
+                     <span>附近的人</span>
+                   </li>
+                   <li>
+                     <span>游戏推荐</span>
+                   </li>
+                   <li>
+                     <span>口袋彩铃</span>
+                   </li>
+                  </ul>
+
+                  <ul class="author">
+                   <li>
+                     <span>创作者中心</span>
+                   </li>
+                  </ul>
+
+                  <ul class="setting">
+                   <li>
+                     <span>我的订单</span>
+                   </li>
+                   <li>
+                     <span>定时停止播放</span>
+                   </li>
+                   <li>
+                     <span>扫一扫</span>
+                   </li>
+
+                   <li>
+                     <span>音乐闹钟</span>
+                   </li>
+                   <li>
+                     <span>音乐网盘</span>
+                   </li>
+                   <li>
+                     <span>在线听歌免流量</span>
+                   </li>
+                   <li>
+                     <span>优惠券</span>
+                   </li>
+
+                   <li>
+                     <span>青少年模式</span>
+                   </li>
+
+                  </ul>
+               </div>   
              </div>
           </div>
         
@@ -47,13 +102,13 @@
              <i class="iconfont">&#xe6cf;</i>
              <span>夜间模式</span>
            </div>
-           <div class="model">
+           <div class="model" @click='changeAccount'>
              <i class="iconfont">&#xe618;</i>
-             <span>设置</span>
+             <span>切换账号</span>
            </div>
-           <div class="model">
+           <div class="model" @click='logout'>
              <i class="iconfont">&#xe681;</i>
-             <span>退出</span>
+             <span>退出登录</span>
            </div>
         </div>
       </div>
@@ -78,23 +133,31 @@
   }
   .sidebar-content{
     height: 100%;
-    overflow: scroll;
+    width: 80%;
+    overflow: hidden;
     background-color: #ffffff;
     transition: all .3s;
+    display: flex;
+    flex-direction: column;
   }
   .open{
     width: 80%;
+    transform: translateX(0%);
   }
   .close{
-    width: 0;
+    /*width: 0;*/
+    transform: translateX(-100%);
   }
   .scrollview{
     width: 100%;
     display: flex;
     flex-direction: column;
     height: 100%;
+    overflow: scroll;
     .main{
       height: 100%;
+      overflow: scroll;
+      width: 100%;
     }
   }
   .login{
@@ -120,6 +183,7 @@
     padding:.4rem .25rem .6rem;
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
   }
   .img{
     z-index: 999
@@ -175,6 +239,9 @@
     align-items: center;
     padding: .3rem 0;
     margin: 0 auto;
+    border-bottom: 1px solid #f1f1f1;
+    flex-shrink: 0;
+    box-sizing: border-box;
     div{
       display: flex;
       flex-direction: column;
@@ -197,6 +264,7 @@
     align-items: center;
     justify-content: space-around;
     overflow-x: hidden;
+    border-top: 1px solid #f1f1f1;
     div{
       display: flex;
       align-items: center;
@@ -205,6 +273,20 @@
       span{
         margin-left: .1rem
       }
+    }
+  }
+  .option-list{
+    width: 100%;
+    padding:0 .2rem;
+    ul{
+        border-bottom: 1px solid #f1f1f1;
+        li{
+        width: 100%;
+        padding: .2rem 0;
+        }
+      }
+    ul:last-child{
+      border: none
     }
   }
 </style>
@@ -226,7 +308,6 @@ export default {
   },
   methods:{
     close () {
-      console.log(111)
       if (this.isShow) {
         this.isHidden=!this.isHidden;
         setTimeout(()=> {
@@ -245,9 +326,21 @@ export default {
     login () {
       this.$router.push('/login')
     },
+    logout (){
+      this.$store.commit('removeToken')
+      this.$store.commit('removeUid')
+    },
     toUser () {
-      
       this.$router.push('/userInfo')
+    },
+
+    changeAccount (){
+      this.axios.get('/logout').then(res=>{
+        console.log(res.data);
+        this.$store.commit('removeToken','');
+        this.$store.commit('removeUid','');
+        this.$router.push('/login');
+      })
     }
   },
   computed:{

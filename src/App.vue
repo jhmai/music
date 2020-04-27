@@ -5,10 +5,10 @@
 		    <keep-alive>
 		          <router-view v-if="$route.meta.keepAlive"></router-view>
 		    </keep-alive>
-		 </transition> 
-		 <transition :name='animationName' mode='out-in'>   
+		</transition> 
+		<transition :name='animationName' mode='out-in'>   
 		    <router-view v-if="!$route.meta.keepAlive"></router-view>
-		 </transition>  
+		</transition>  
 		<play></play>
 		
   </div>

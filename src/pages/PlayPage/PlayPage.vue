@@ -6,20 +6,20 @@
             <div class="left" @click="back()">
                 <i class="iconfont" style="font-size: .4rem;">&#xe65e;</i>
             </div>
-              <div class="center">
-                <span class="songname">{{playItem[0].name}}</span>
-                <span class="singer">{{playItem[0].ar[0].name}}</span>
+            <div class="center">
+              <span class="songname">{{playItem[0].name}}</span>
+              <span class="singer">{{playItem[0].ar[0].name}}</span>
             </div>
             <div class="right">
               <i class="iconfont" style="margin-right: .4rem;">&#xe607;</i>
               <i class="iconfont" >&#xe65c;</i>
             </div>
+          </div>
         </div>
-      </div>
       <dish v-show="show=='dish'" @show="showContent"></dish>
       <lyric v-show="show=='lyric'"  :lyric="lyric" @show="showContent"></lyric>
       <div class="progress-line">
-        <span class="currenTime">{{currentTime}}</span>
+        <span class="currenTime">{{time}}</span>
         <div class="progress" @click="to" ref="progress">
           <div class="current" :style="{width:progress}">
             <div class="currentPoint" @touchmove="move" ref="currentPoint" @touchend="end"></div>
@@ -201,7 +201,8 @@ export default {
       percent:0,
       progress:'',
       lyric:'',
-      show:'dish'
+      show:'dish',
+      time:''
     }
   },
   components: {
@@ -239,29 +240,22 @@ export default {
       this.$router.go(-1);
     },
     pre (){
-      let currentList=this.$store.state.playList;
-      let playId=this.$store.state.playId;
-      let cIndex=currentList.findIndex(function(item){
-          return item.id==playId;
-      })
-      if (cIndex!==0) {
-        this.$store.commit('play',currentList[cIndex-1].id)
-        this.$store.commit('changeStatus',1)
-        this.icon='&#xe665;'
-      }
+      this.skip(-1)
     },
     next (){
+      this.skip(1)
+    },
+    skip(index){
       let currentList=this.$store.state.playList;
       let playId=this.$store.state.playId;
       let cIndex=currentList.findIndex(function(item){
           return item.id==playId;
       })
       if (cIndex!==currentList.length) {
-        this.$store.commit('play',currentList[cIndex+1].id)
+        this.$store.commit('play',currentList[cIndex+index].id)
         this.$store.commit('changeStatus',1)
         this.icon='&#xe665;'
-      }
-      
+      } 
     },
     play () {
     // console.log(this.$refs.audio.duration)
@@ -288,6 +282,15 @@ export default {
     playItem () {
       let list=this.$store.state.playList;
       let playing=list.filter(item=>item.id==this.$store.state.playId)
+      if (!playing[0].al) {
+          playing[0].al=playing[0].album;
+        }
+  
+        if (!playing[0].ar) {
+          playing[0].ar=playing[0].artists
+        }
+
+
       return playing
     },
     playId () {
@@ -295,28 +298,28 @@ export default {
     },
     currentTime () {
 
-      return this.utils.formatTime(this.$store.state.currentTime)
+      return this.$store.state.currentTime
     },
     playStatus () {
       return this.$store.state.playStatus
     },
-    jump () {
-      return this.$store.state.jump
-    }
+    // jump () {
+    //   return this.$store.state.jump
+    // }
   },
   watch:{
     currentTime (curval,oldval){
       this.percent=this.$store.state.currentTime/this.$store.state.totalTime
       this.progress=this.$store.state.currentTime/this.$store.state.totalTime*100+'%';
-      // console.log(this.percent)
+      this.time=this.utils.formatTime(curval)
     },
-    jump (curval,oldval){
-      this.percent=this.$store.state.jump/this.$store.state.totalTime
-      this.progress=this.$store.state.jump/this.$store.state.totalTime*100+'%';
-      // console.log(this.percent)
-    },
+    // jump (curval,oldval){
+    //   this.percent=this.$store.state.jump/this.$store.state.totalTime
+    //   this.progress=this.$store.state.jump/this.$store.state.totalTime*100+'%';
+    //   // console.log(this.percent)
+    // },
     playId (curval,oldval){
-      console.log(111)
+      
       this.axios.get('/lyric?id='+this.playId).then(res=>{
         this.lyric=res.data.lrc.lyric.replace(/\r?\n|\r/gm,"")
       })
@@ -326,7 +329,9 @@ export default {
       next()
   },
   mounted () {
+
     this.axios.get('/lyric?id='+this.playId).then(res=>{
+
         this.lyric=res.data.lrc.lyric.replace(/\r?\n|\r/gm,"")
       }) 
   }

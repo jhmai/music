@@ -135,7 +135,6 @@ export default {
 
       list[list.length-1][3]=999999;
 
-
       this.lyricList=list
       // console.log(this.lyricList)
     },
@@ -143,7 +142,8 @@ export default {
       // this.$refs.lyricview.scrollTop=this.$refs.current[0].offsetTop-this.lyricHeight;
     
         if (!this.touch) {
-          this.scrollY=-(this.$refs.current[0].offsetTop-this.lyricHeight)+'px';
+          // this.scrollY=-(this.$refs.current[0].offsetTop-this.lyricHeight)+'px';
+          this.scrollY=this.lyricHeight-this.$refs.current[0].offsetTop+'px';
         }
      
       

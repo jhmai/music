@@ -152,9 +152,20 @@ export default {
         })
         let list=this.$store.state.playList;
         let playing=list.filter(item=>item.id==this.playId)
+        // console.log(playing[0].al.picUrl||playing[0].album.picUrl)
         this.name=playing[0].name;
-        this.picUrl=playing[0].al.picUrl;
-        this.author=playing[0].ar[0].name;   
+        if (playing[0].al) {
+          this.picUrl=playing[0].al.picUrl;
+        }else{
+          this.picUrl=playing[0].album.picUrl;
+        }
+        
+        if (playing[0].ar) {
+          this.author=playing[0].ar[0].name
+        }else{
+          this.author=playing[0].artists[0].name; 
+        }
+        // this.author=playing[0].ar[0].name||playing[0].artists[0].name;   
 
       },
 

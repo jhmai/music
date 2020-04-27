@@ -2,7 +2,7 @@
   <div class="options stop-swiping" >
     <ul class="option-list">
 
-      <router-link to="/home" tag="li" v-for="item in optionsList">
+      <router-link :to="item.link" tag="li" v-for="item in optionsList">
         <div>
           <i class="iconfont" v-html="item.icon"></i>
         </div>

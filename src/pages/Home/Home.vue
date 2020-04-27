@@ -26,11 +26,10 @@
 
           <swiper-slide>
             <router-view ></router-view>
-            
           </swiper-slide>
           <swiper-slide>
-            <router-view name='find'></router-view>
-            
+            <!-- <router-view name='find'></router-view> -->
+            <find></find>
           </swiper-slide>
         </swiper>
 
@@ -83,10 +82,12 @@
 </style>
 <script>
 import sidebar from '@/components/sidebar'
+import find from '@/pages/Find/Find'
 export default {
   name: 'home',
   components: {
-    sidebar
+    sidebar,
+    find
   },
   data(){
     return{
@@ -132,8 +133,15 @@ export default {
   },
   beforeRouteEnter(to,from,next){
     
-    console.log(from.meta)
     next()
   },
+  beforeRouteLeave (to,from,next){
+    if (to.path=='/login') {
+      this.$route.meta.keepAlive=false
+    }else{
+      this.$route.meta.keepAlive=true
+    }
+    next()
+  }
 }
 </script>

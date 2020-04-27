@@ -16,7 +16,7 @@ Vue.use(animated)
 Vue.config.productionTip = false;
 Vue.prototype.utils=utils;
 
-import {Layout} from 'vue-ydui/dist/lib.rem/layout';
+// import {Layout} from 'vue-ydui/dist/lib.rem/layout';
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import loading from '@/components/loading'
 Vue.component('loading', loading)
@@ -25,7 +25,7 @@ import 'swiper/dist/css/swiper.css'
 
 Vue.use(VueAwesomeSwiper, /* { default global options } */)
 /* 使用px：import {Layout} from 'vue-ydui/dist/lib.px/layout'; */
-Vue.component(Layout.name, Layout);
+// Vue.component(Layout.name, Layout);
 
 Vue.prototype.axios=service;
 

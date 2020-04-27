@@ -60,7 +60,7 @@ export default {
       optionsList:[{
         icon:'&#xe603;',
         title:'每日推荐',
-        link:''
+        link:'/recommendList'
       },
       {
         icon:'&#xe602;',

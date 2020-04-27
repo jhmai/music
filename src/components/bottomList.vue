@@ -14,8 +14,9 @@
        </div>
         <div class="list">
           <ul>
-            <li v-for="item in songList" @click="change(item.id)">
+            <li v-for="item in songList" @click="change(item.id)" :class="[item.id==playId?'current':'']">
               <div>
+                <i class="iconfont" v-if="item.id==playId" style="color:#EF5B59;margin-right: .12rem;">&#xe66d;</i>
                 <span class="song-name">{{item.name}} </span>
                 <span class="singer"> - {{item.ar[0].name}}</span>
               </div>
@@ -103,7 +104,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-
   }
   .singer{
     font-size: .22rem;
@@ -112,9 +112,16 @@
   .list li i{
     color: #cccccc;
   }
+  .current{
+    color: #EF5B59!important;
+  }
+  .current .singer{
+    color: #EF5B59!important;
+  }
 
 </style>
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'bottomList',
   components: {
@@ -128,7 +135,7 @@ export default {
   },
   methods:{
     close () {
-      console.log(111)
+      console.log(this.playId)
       
       if (this.isShow) {
         this.isHidden=!this.isHidden;
@@ -149,9 +156,13 @@ export default {
     }
   },
   computed:{
-    songList () {
-      return this.$store.state.playList
-    }
+    // songList () {
+    //   return this.$store.state.playList
+    // },
+    ...mapState({
+      playId:'playId',
+      songList:'playList'
+    })
   }
   
 }

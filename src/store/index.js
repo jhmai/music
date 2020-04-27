@@ -9,7 +9,7 @@ export default new Vuex.Store({
   	playId:'',
   	playStatus:1,//1播放 0暂停
   	playList:[],//播放列表
-  	playmode:1,
+  	playmode:1,//播放模式
   	totalTime:'',
   	currentTime:'',
     isLoading:true,
@@ -46,14 +46,16 @@ export default new Vuex.Store({
       state.token=token;
       localStorage.setItem('token',token)
     },
-    removeToken(){
+    removeToken(state){
+      state.token='';
       localStorage.removeItem('token')
     },
     setUid(state,uid){
       state.uid=uid;
       localStorage.setItem('uid',uid)
     },
-    removeUid(){
+    removeUid(state){
+      state.uid='';
       localStorage.removeItem('uid')
     }
   },

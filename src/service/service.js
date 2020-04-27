@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Vue from 'vue'
-import { Confirm, Alert, Toast, Notify, Loading } from 'vue-ydui/dist/lib.rem/dialog';
 let baseURL=process.env.NODE_ENV=='development'?'/api':'http://140.143.128.100:3000'
 
 const service = axios.create({
@@ -13,7 +12,6 @@ const service = axios.create({
 })
 
 service.interceptors.request.use(config=>{
-	// vm.$dialog.loading.open('加载中');
 	vm.$store.commit('isLoading',true)
 	let token = window.localStorage.getItem("token")
     if (token) {

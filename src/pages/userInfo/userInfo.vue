@@ -36,7 +36,7 @@
  								<span>创建的歌单</span>
  								<span class="total">({{creat.length}}个)</span>
  							</div>
-	 						<div class="playMenu" v-for="item in creat">
+	 						<div class="playMenu" v-for="item in creat" @click='toList(item.id)'>
 	 							<img :src="item.coverImgUrl" alt="">
 	 							<div class="right">
 	 								<span class="name">{{item.name}}</span>
@@ -49,7 +49,7 @@
  								<span>收藏的歌单</span>
  								<span class="total">({{creat.length}})</span>
  							</div>
-	 						<div class="playMenu" v-for="item in collect">
+	 						<div class="playMenu" v-for="item in collect" @click='toList(item.id)'>
 	 							<img :src="item.coverImgUrl" alt="">
 	 							<div class="right">
 	 								<span class="name">{{item.name}}</span>
@@ -75,9 +75,9 @@
 .userInfo{
 	width: 100%;
 	height: 100%;
-	flex-direction: column;
+	/*flex-direction: column;
 	position: relative;
-	overflow-y: hidden;
+	overflow-y: hidden;*/
 }
 .header{
 	display: flex;
@@ -167,7 +167,7 @@
 	background-color: #fff;
 	border-radius: 15px 15px 0 0;
 	overflow-y: hidden;
-	z-index: 999
+	z-index: 999;
 }
 .scroll{
 	overflow-y: scroll!important;
@@ -208,6 +208,7 @@
 }
 .flex .view{
 	overflow-y: scroll;
+	padding-bottom: 1.5rem;
 }
 .playMenu{
 	padding: .2rem;
@@ -283,7 +284,9 @@ export default {
    		createDays:'',
    		areacode:areacode,
    		provinceCode:'',
-   		cityCode:''
+   		cityCode:'',
+   		mainS:'',
+   		st:0
     }
   },
   components: {
@@ -300,22 +303,33 @@ export default {
       	this.isScroll=false
       	this.opacity=0;
       }
+      this.mainS=this.$refs.main.scrollTop;
+
     },
     handleScrollview(){
-    	// console.log(this.$refs.scrollview.scrollTop)
+    	this.st=this.$refs.view.scrollTop;
     	if (this.$refs.view.scrollTop<=0) {
     		this.isScroll=true
     	}
+
     },
     back(){
     	this.$router.go(-1)
+    },
+    toList (id){
+    	console.log(id)
+    	this.$router.push({
+    		path:'/songlist',
+    		query:{
+    			id:id
+    		}
+    	})
     }
     
   },
   mounted() {
   	if (this.uid) {
         this.axios.get('/user/detail?uid='+this.uid).then(res=>{
-         
           this.backgroundUrl=res.data.profile.backgroundUrl
           this.avatarUrl=res.data.profile.avatarUrl
           this.level=res.data.level
@@ -332,6 +346,7 @@ export default {
         		item.playCount=this.utils.conversion(item.playCount)
         	})
         	this.playlist=res.data.playlist
+
         })
       }
 
@@ -344,7 +359,8 @@ export default {
     // })
   },
   activated () {
-
+  	this.$refs.main.scrollTop=this.mainS;
+  	this.$refs.view.scrollTop=this.st;
   },
   computed:{
    uid () {
@@ -365,7 +381,7 @@ export default {
     }
   },
   destroyed () {
-    window.removeEventListener('scroll', this.handleScroll)
+    // window.removeEventListener('scroll', this.handleScroll)
   },
   watch:{
   	playlist (){
@@ -373,14 +389,25 @@ export default {
   		for (var i = 0; i < list.length; i++) {
   			if (list[i].name.indexOf(this.nickname) != -1) {
   				this.creat.push(list[i])
-  			}else if(list[i].subscribed){
+
+  			}else{
   				this.collect.push(list[i])
   			}
   		}
+  		console.log(this.playlist)
+
   	}
   },
   uid (){
   	
+  },
+  beforeRouteLeave (to,from,next){
+  	if (to.path=='/home') {
+  		this.$route.meta.keepAlive=false
+  	}else{
+  		this.$route.meta.keepAlive=true
+  	}
+  	next()
   }
   
 }
