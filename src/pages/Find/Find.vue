@@ -65,7 +65,7 @@ export default {
       {
         icon:'&#xe602;',
         title:'歌单',
-        link:''
+        link:'/songSheet'
       },
       {
         icon:'&#xe604;',

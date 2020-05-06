@@ -4,7 +4,7 @@
         <yd-navbar slot="navbar" class="bar">
             <div slot="left" @click="side">
                 <!-- <yd-icon name="type" size=".3rem" color="#000000"></yd-icon> -->
-                <i class="iconfont">&#xe70d;</i>
+                <i class="iconfont" >&#xe70d;</i>
             </div>
             <div slot="center">
                 <div class="top-list">
@@ -16,7 +16,7 @@
             </div>
             <div slot="right">
               <!-- <yd-icon name="search" size=".3rem" color="#000000"></yd-icon> -->
-              <i class="iconfont">&#xe607;</i>
+              <i class="iconfont" @click='search'>&#xe607;</i>
             </div>
         </yd-navbar>
         
@@ -114,6 +114,9 @@ export default {
 
     side () {
       this.$refs.sidebar.close()
+    },
+    search(){
+      this.$router.push('/search')
     }
   },
   created() {
@@ -129,6 +132,10 @@ export default {
     // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
     // console.log('this is current swiper instance object', this.$refs.mySwiper.swiper)
     this.swiper.slideTo(0, 1000, false)
+
+    this.axios.get('/top/playlist').then(res=>{
+      console.log(res.data)
+    })
     
   },
   beforeRouteEnter(to,from,next){

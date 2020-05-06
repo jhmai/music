@@ -282,14 +282,6 @@ export default {
     playItem () {
       let list=this.$store.state.playList;
       let playing=list.filter(item=>item.id==this.$store.state.playId)
-      if (!playing[0].al) {
-          playing[0].al=playing[0].album;
-        }
-  
-        if (!playing[0].ar) {
-          playing[0].ar=playing[0].artists
-        }
-
 
       return playing
     },

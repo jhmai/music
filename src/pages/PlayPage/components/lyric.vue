@@ -80,7 +80,7 @@ export default {
     onMove(e){
       // console.log(e.targetTouches[0].clientY)
       this.scrollY=Number(this.tem.split('px')[0])+Number((e.targetTouches[0].clientY-this.start))+'px';
-      console.log(this.scrollY)
+      // console.log(this.scrollY)
     },
     onEnd(e){
       console.log(e)
@@ -111,7 +111,7 @@ export default {
   },
   watch:{
     lyric () {
-      console.log(this.lyric)
+      // console.log(this.lyric)
       let arr=this.lyric.split('[');
       let lyricArr=[];
       
@@ -141,7 +141,7 @@ export default {
     currentTime () {
       // this.$refs.lyricview.scrollTop=this.$refs.current[0].offsetTop-this.lyricHeight;
     
-        if (!this.touch) {
+        if (!this.touch&&this.$refs.current) {
           // this.scrollY=-(this.$refs.current[0].offsetTop-this.lyricHeight)+'px';
           this.scrollY=this.lyricHeight-this.$refs.current[0].offsetTop+'px';
         }

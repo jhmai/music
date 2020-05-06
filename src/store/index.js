@@ -57,13 +57,23 @@ export default new Vuex.Store({
     removeUid(state){
       state.uid='';
       localStorage.removeItem('uid')
+    },
+    addSong(state,song){
+      if (state.playList.length==0) {
+        state.playList.push(song)
+      }else{
+        let index=state.playList.findIndex((item,index)=>{
+        return item.id==state.playId;
+      })
+        state.playList.splice(index+1,0,song)
+      }
+      state.playId=song.id;
     }
   },
   actions: {
     usecurrentTime (context,time) {
       setTimeout(function(){
         context.commit('currentTime',time)
-
       },1000)
       
     }

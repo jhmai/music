@@ -462,11 +462,11 @@ export default {
   beforeRouteEnter(to,from,next){
 
     next(vm=>{
-      console.log(vm.$route.meta.keepAlive)
+      // console.log(vm.$route.meta.keepAlive)
       // vm.$refs.list.scrollTop=vm.scrollTop
 
       vm.$refs.list.scrollTop=vm.scrollTop
-      console.log(vm.$refs.list.scrollTop=vm.scrollTop)
+      // console.log(vm.$refs.list.scrollTop=vm.scrollTop)
     })
   },
   beforeRouteLeave (to,from,next){

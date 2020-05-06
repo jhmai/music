@@ -33,7 +33,8 @@
 	  animation: fadeIn 0.5s;
 	}
 	.fadeup-enter-active{
-	  animation: fadeInUp 0.5s;
+	  animation: fadeInUp 0.3s;
+	  /*transition-delay: 0.3s;*/
 	}
 	.fadedown-enter-active{
 	  animation: fadeOutDown .3s;
@@ -54,11 +55,11 @@
   watch:{
     $route(to, from) {
     	
-
-	if (to.meta.index==10) {
+	if (to.meta.index==10&&from.path=='/home') {
+		// console.log(from.path)
 		this.animationName='fadeup'
-	}else if (from.meta.index==10) {
-        this.animationName='fadedown'
+	}else if (from.meta.index==10||to.meta.index==10) {
+        this.animationName='fadein'
       }else if (to.meta.index>from.meta.index) {
         this.animationName='faderight'
       }else if (to.meta.index==from.meta.index) {

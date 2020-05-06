@@ -88,7 +88,26 @@ const routes = [
     component:()=>import('@/pages/recommendList/recommendList.vue'),
     meta:{
       index:2,
+      keepAlive:false,
+      requireAuth:true
+    }
+  },
+  {
+    path:'/songSheet',
+    name:'songSheet',
+    component:()=>import('@/pages/songSheet/songSheet.vue'),
+    meta:{
+      index:2,
       keepAlive:false
+    }
+  },
+  {
+    path:'/search',
+    name:'search',
+    component:()=>import('@/pages/search/search.vue'),
+    meta:{
+      index:10,
+      keepAlive:true
     }
   }
   
@@ -98,8 +117,16 @@ const router = new VueRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
- 
-  next()
+ if (to.meta.requireAuth) {
+    if (localStorage.getItem('token')) {
+      next()
+    }else{
+      next('/login')
+    }
+ }else{
+    next()
+ }
+  
 })
 
 export default router

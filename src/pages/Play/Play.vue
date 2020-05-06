@@ -159,7 +159,6 @@ export default {
         }else{
           this.picUrl=playing[0].album.picUrl;
         }
-        
         if (playing[0].ar) {
           this.author=playing[0].ar[0].name
         }else{

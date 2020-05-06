@@ -2,6 +2,7 @@
 	 <div class="recommendList" :class="[isscroll?'scroll':'hidden']"  ref='recommendList'>
 	 	<div class="header" ref='header'>
 	 		<i class="iconfont" @click='back'>&#xe65e;</i>
+	 		<span v-show='!isscroll' class="title">每日推荐</span>
 	 	</div>
 	 	<div class="background" :style="{filter:'blur('+blur+'px)'}">
 	 		<img :src="backgroundUrl" alt="">
@@ -45,6 +46,9 @@
 .header{
 	position: fixed;
 	padding: .2rem;
+	height: .65rem;
+	display: flex;
+	align-items: center;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -53,6 +57,11 @@
 		z-index: 99;
 		color: #fff;
 	}
+}
+.title{
+	font-size: .3rem;
+	color: #fff;
+	margin-left: .3rem;
 }
 .background{
 	position: absolute;
@@ -66,7 +75,7 @@
 	}
 }
 .scrollview{
-	height: 90vh;
+	height: 94vh;
 	width: 100%;
 	background-color: #fff;
 	border-radius: 15px 15px 0 0;
@@ -186,7 +195,7 @@ export default{
 			let scroll=document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
 			// console.log(scroll+':'+this.clientH*0.05+':'+(scroll>=this.clientH*0.05))
 			this.blur=scroll*0.15
-			if (scroll>=Math.floor(this.clientH*0.15)) {
+			if (scroll>=Math.floor(this.clientH*0.16)) {
 				this.isscroll=false;
 			}else{
 				this.isscroll=true;
@@ -201,7 +210,12 @@ export default{
 	mounted (){
 		this.axios.get('/recommend/songs').then(res=>{
 			console.log(res.data.recommend)
+	  		res.data.recommend.forEach((item,index)=>{
+	  			item.al=item.album;
+	  			item.ar=item.artists;
+	  		})
 			this.songList=res.data.recommend
+			console.log(this.songList)
 			this.backgroundUrl=res.data.recommend[0].artists[0].img1v1Url
 		})
 		window.addEventListener('scroll', this.handleScroll)
