@@ -70,7 +70,7 @@ export default {
       {
         icon:'&#xe604;',
         title:'排行榜',
-        link:''
+        link:'/rankingList'
       },
       {
         icon:'&#xe601;',

@@ -133,9 +133,9 @@ export default {
     // console.log('this is current swiper instance object', this.$refs.mySwiper.swiper)
     this.swiper.slideTo(0, 1000, false)
 
-    this.axios.get('/top/playlist').then(res=>{
-      console.log(res.data)
-    })
+    // this.axios.get('/toplist/detail').then(res=>{
+    //   console.log(res.data)
+    // })
     
   },
   beforeRouteEnter(to,from,next){

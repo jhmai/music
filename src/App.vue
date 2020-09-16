@@ -2,13 +2,13 @@
   <div id="app">
 
     	<transition :name='animationName' mode='out-in'>
-		    <keep-alive>
-		          <router-view v-if="$route.meta.keepAlive"></router-view>
+		    <keep-alive :include="cached">
+		          <router-view></router-view>
 		    </keep-alive>
 		</transition> 
-		<transition :name='animationName' mode='out-in'>   
+		<!-- <transition :name='animationName' mode='out-in'>   
 		    <router-view v-if="!$route.meta.keepAlive"></router-view>
-		</transition>  
+		</transition>   -->
 		<play></play>
 		
   </div>
@@ -49,7 +49,8 @@
   name: 'App',
   data () {
     return {
-      animationName:'fade'
+      animationName:'fade',
+      cached: this.$store.state.catchArr
     }
   },
   watch:{
@@ -66,8 +67,12 @@
          this.animationName='fadein'
       }else{
         this.animationName='fadeleft'
-      }
+      }   
+
+      this.cached = this.$store.state.catchArr
     }
+	      
+
   },
   components:{
   	play

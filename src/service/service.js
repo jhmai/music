@@ -28,8 +28,17 @@ service.interceptors.request.use(config=>{
 service.interceptors.response.use(config=>{
 	// vm.$dialog.loading.close();
 	vm.$store.commit('isLoading',false)
+  
+
 	return config
 }, err => {
+  
+  if(JSON.stringify(err).indexOf('301')!=-1){
+    vm.$router.replace({
+      path:'/login'
+    })
+  }
+  
   return Promise.reject(err);
 });
 

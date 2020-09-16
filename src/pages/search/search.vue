@@ -127,6 +127,12 @@ export default {
       console.log(res.data)
       this.showKeyword=res.data.data.showKeyword
     })
+  },
+  beforeRouteLeave(to,from,next){
+    if (to.name != "playpage"&&to.name!='songlist') {
+        this.$store.commit("noKeepAlive", "rankingList");
+      }
+    next()
   }
 }
 

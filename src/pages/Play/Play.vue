@@ -94,7 +94,7 @@ export default {
       
     },
     onEnd () {
-      let currentList=this.$store.state.playList;
+      let currentList=this.playList;
       let playId=this.$store.state.playId;
       let cIndex=currentList.findIndex(function(item){
           return item.id==playId;
@@ -137,6 +137,9 @@ export default {
     },
     jump(){
       return this.$store.state.jump
+    },
+    playList(){
+      return this.$store.state.playList
     }
 
   },
@@ -150,7 +153,7 @@ export default {
           }
           
         })
-        let list=this.$store.state.playList;
+        let list=this.playList;
         let playing=list.filter(item=>item.id==this.playId)
         // console.log(playing[0].al.picUrl||playing[0].album.picUrl)
         this.name=playing[0].name;

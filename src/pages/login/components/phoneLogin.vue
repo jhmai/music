@@ -147,13 +147,24 @@ export default {
       }
     },
     login () {
-      this.axios.get('login/cellphone?phone='+this.number+'&password='+this.password).then(res=>{
+      var parma={
+        'phone':this.number,
+        'password':this.password
+      }
+      this.axios.post('login/cellphone',parma).then(res=>{
         if (res.status==200) {
           this.$store.commit('setToken',res.data.token)
           this.$store.commit('setUid',res.data.account.id)
           this.$router.push('/home');
         }
       })
+      // this.axios.get('login/cellphone?phone='+this.number+'&password='+this.password).then(res=>{
+      //   if (res.status==200) {
+      //     this.$store.commit('setToken',res.data.token)
+      //     this.$store.commit('setUid',res.data.account.id)
+      //     this.$router.push('/home');
+      //   }
+      // })
     }
   },
   props:{

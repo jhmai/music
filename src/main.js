@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -8,6 +9,7 @@ import 'vue-ydui/dist/ydui.rem.css';
 import 'vue-ydui/dist/ydui.flexible.js';
 import '@/assets/iconfont/iconfont.css';
 import utils from '@/utils/utils.js'
+import qs from 'qs'
 // import Mint from 'mint-ui';
 import service from '@/service/service.js'
 // Vue.use(Mint);
@@ -15,7 +17,8 @@ Vue.use(YDUI);
 Vue.use(animated)
 Vue.config.productionTip = false;
 Vue.prototype.utils=utils;
-
+Vue.prototype.qs=qs;
+Vue.config.devtools = true
 // import {Layout} from 'vue-ydui/dist/lib.rem/layout';
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import loading from '@/components/loading'

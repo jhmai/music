@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/pages/Home/Home.vue'
 import Find from '@/pages/Find/Find.vue'
 import My from '@/pages/My/My.vue'
+import store from '@/store';
 // import Songlist from '@/pages/Songlist/Songlist.vue'
 // import Play from '@/pages/Play/Play.vue'
 // import PlayPage from '@/pages/PlayPage/PlayPage.vue'
@@ -109,6 +110,15 @@ const routes = [
       index:10,
       keepAlive:true
     }
+  },
+  {
+    path:'/rankingList',
+    name:'rankingList',
+    component:()=>import('@/pages/rankingList/rankingList.vue'),
+    meta:{
+      index:2,
+      keepAlive:true
+    }
   }
   
 ]
@@ -116,7 +126,13 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+const keepAliveArr=['rankingList','home','songlist','search','recommendList','songSheet']
 router.beforeEach((to, from, next) => {
+  if (keepAliveArr.indexOf(to.name)!=-1) {
+    store.commit('iskeepAlive', to.name);
+    next();
+  }
+
  if (to.meta.requireAuth) {
     if (localStorage.getItem('token')) {
       next()

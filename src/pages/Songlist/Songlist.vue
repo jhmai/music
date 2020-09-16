@@ -78,7 +78,10 @@
               <loading></loading>
               <ul ref='songLists'>
                 <li v-for="(item,index) in songlist" @click="play(item.id)" :key='item.id'>
-                  <div class="sort">{{index+1}}</div>
+                  <div class="sort">
+                    {{item.id!==playId?index+1:''}}
+                    <i class="iconfont laba" v-if='item.id==playId'>&#xe66d;</i>
+                  </div>
                   <div class="song-info">
                     <div class="song-name">{{item.name}}</div>
                     <div class="info">
@@ -320,7 +323,7 @@
   ul{
     z-index: 999;
   }
-  .play-list i{
+  .songLists>i{
     color: #c5c5c5;
     font-size: .35rem;
     margin-right: .25rem;
@@ -362,6 +365,10 @@
   .zindex{
 
   }
+  .laba{
+    color: red;
+    font-size: .32rem;
+  }
 
 </style>
 
@@ -379,7 +386,8 @@ export default {
       opacity:1,
       show:1,
       fixed:0,
-      scrollTop:''
+      scrollTop:'',
+      scrollDoc:'',
     }
   },
   components: {
@@ -402,13 +410,12 @@ export default {
         
       }else{
         this.opacity=0;
-        
       }
       if (scroll>=height+vheight) {
         
         this.fixed=1;
       }else if(scroll<height+vheight){
-        
+        this.scrollDoc=scroll;
         this.fixed=0;
       }
     },
@@ -437,14 +444,20 @@ export default {
     })
   },
   activated () {
-    var id=this.$route.query.id
-    this.axios.get('/playlist/detail?id='+id).then((res)=>{
-      // console.log(res.data.playlist.coverImgUrl)
-      this.infoBg=res.data.playlist.coverImgUrl;
-      this.playCount=res.data.playlist.playCount;
-      this.playlist=res.data.playlist;
-      this.songlist=res.data.playlist.tracks;
+    // var id=this.$route.query.id
+    // this.axios.get('/playlist/detail?id='+id).then((res)=>{
+    //   this.infoBg=res.data.playlist.coverImgUrl;
+    //   this.playCount=res.data.playlist.playCount;
+    //   this.playlist=res.data.playlist;
+    //   this.songlist=res.data.playlist.tracks;
 
+    // })
+
+    this.$nextTick(()=>{
+      document.documentElement.scrollTop=this.scrollDoc
+      document.body.scrollTop=this.scrollDoc
+      // window.pageYOffset=this.scrollDoc;
+      this.$refs.list.scrollTop=this.scrollTop
     })
     window.addEventListener('scroll', this.handleScroll)
   },
@@ -454,29 +467,31 @@ export default {
     },
     isLoading () {
       return this.$store.state.isLoading
+    },
+    playId (){
+      return this.$store.state.playId
     }
   },
   destroyed () {
-    window.removeEventListener('scroll', this.handleScroll)
+    // window.removeEventListener('scroll', this.handleScroll)
   },
   beforeRouteEnter(to,from,next){
 
     next(vm=>{
       // console.log(vm.$route.meta.keepAlive)
       // vm.$refs.list.scrollTop=vm.scrollTop
-
-      vm.$refs.list.scrollTop=vm.scrollTop
-      // console.log(vm.$refs.list.scrollTop=vm.scrollTop)
     })
   },
   beforeRouteLeave (to,from,next){
     
     if (to.name=='playpage') {
       this.scrollTop=this.$refs.list.scrollTop;
-      this.$route.meta.keepAlive=true;
+      
+      // this.$route.meta.keepAlive=true;
       
     }else{
-      this.$route.meta.keepAlive=false;
+      // this.$route.meta.keepAlive=false;
+      this.$store.commit('noKeepAlive','songlist')
       // this.$destroy();
     }
     next()

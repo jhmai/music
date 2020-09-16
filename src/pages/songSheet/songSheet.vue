@@ -204,7 +204,8 @@ export default{
   				
 	          // Some Swiper option/callback...
 	        },
-	        isLoading:false
+	        isLoading:false,
+	        scrollTop:''
 		}
 	},
 	methods:{
@@ -260,7 +261,21 @@ export default{
 	},
 	mounted (){
 		this.requestSheet();
-	}
+	},
+	beforeRouteLeave (to,from,next){
+    this.scrollTop=this.$refs.scrollview.scrollTop;
+    if (to.name != "playpage"&&to.name!='songlist') {
+	      this.$store.commit("noKeepAlive", "songSheet");
+	    }
+    next()
+  },
+  activated(){
+  	console.log(this.scrollTop)
+  	this.$nextTick(()=>{
+  		this.$refs.scrollview.scrollTop=this.scrollTop
+  	})
+  	
+  }
 }
 
 </script>

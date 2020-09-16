@@ -20,7 +20,7 @@
                 <span class="song-name">{{item.name}} </span>
                 <span class="singer"> - {{item.ar[0].name}}</span>
               </div>
-              <i class="iconfont">&#xe626;</i>
+              <i class="iconfont" @click.stop="remove(item.id)">&#xe626;</i>
             </li>
           </ul>
         </div>
@@ -153,11 +153,17 @@ export default {
     },
     change (id) {
       this.$store.commit('play',id)
+    },
+    remove(id){
+      this.$store.commit('removeSong',id)
     }
   },
   computed:{
     // songList () {
     //   return this.$store.state.playList
+    // },
+    // playId () {
+    //   return this.$store.state.playId
     // },
     ...mapState({
       playId:'playId',
