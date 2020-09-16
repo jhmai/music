@@ -270,7 +270,7 @@ export default{
     next()
   },
   activated(){
-  	console.log(this.scrollTop)
+  	
   	this.$nextTick(()=>{
   		this.$refs.scrollview.scrollTop=this.scrollTop
   	})
